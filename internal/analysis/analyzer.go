@@ -14,14 +14,24 @@ func Analyze(composeFile *compose.ComposeFile) []Finding {
 		if service.Image == "" && service.Build.Context == "" {
 			findings = append(findings, Finding{
 				Service:  key,
-				Message:  "Service has no image or build context defined",
+				Title:    "Missing image or build context",
 				Severity: "high",
 			})
 		} else if strings.HasSuffix(service.Image, ":latest") {
 			findings = append(findings, Finding{
-				Service:  key,
-				Message:  "Service is using the 'latest' tag for the image",
-				Severity: "medium",
+				Service:     key,
+				Title:       "Using 'latest' tag for image",
+				Description: "Service is using the 'latest' tag for the image",
+				Severity:    "medium",
+			})
+		}
+
+		if service.Privileged {
+			findings = append(findings, Finding{
+				Service:     key,
+				Title:       "Privileged container",
+				Description: "Privileged containers have extensive access to the host and should only be used when absolutely necessary.",
+				Severity:    "high",
 			})
 		}
 
@@ -30,17 +40,19 @@ func Analyze(composeFile *compose.ComposeFile) []Finding {
 			parts := strings.Split(port, ":")
 			if len(parts) == 2 {
 				findings = append(findings, Finding{
-					Service:  key,
-					Message:  "Published port has no explicit host IP and may be exposed on all interfaces",
-					Severity: "medium",
+					Service:     key,
+					Title:       "Published port without host IP",
+					Description: "Published port has no explicit host IP and may be exposed on all interfaces",
+					Severity:    "medium",
 				})
 			} else if len(parts) == 3 {
 				hostIP := parts[0]
 				if hostIP == "0.0.0.0" {
 					findings = append(findings, Finding{
-						Service:  key,
-						Message:  "Published port is exposed on all interfaces (0.0.0.0)",
-						Severity: "medium",
+						Service:     key,
+						Title:       "Published port exposed on all interfaces",
+						Description: "Published port is exposed on all interfaces (0.0.0.0)",
+						Severity:    "medium",
 					})
 				}
 

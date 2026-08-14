@@ -2,7 +2,7 @@ package analysis
 
 type Finding struct {
 	Service     string
-	Message     string
+	Title       string
 	Description string
 	Severity    string
 }
