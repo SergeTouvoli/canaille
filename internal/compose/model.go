@@ -13,6 +13,7 @@ type Service struct {
 	Command       string      `yaml:"command"`
 	Networks      []string    `yaml:"networks"`
 	Healthcheck   Healthcheck `yaml:"healthcheck"`
+	Privileged    bool        `yaml:"privileged"`
 }
 
 type Build struct {

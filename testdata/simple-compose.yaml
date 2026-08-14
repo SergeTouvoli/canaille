@@ -22,6 +22,7 @@ services:
   nginx:
     image: nginx:latest
     restart: unless-stopped
+    privileged: true
     networks:
       - default
       - proxy
