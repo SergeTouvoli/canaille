@@ -79,7 +79,7 @@ func (m Model) View() string {
 
 		found = true
 
-		line := finding.Severity + " - " + finding.Message
+		line := "[" + strings.ToUpper(finding.Severity) + "] " + finding.Title + " : " + finding.Description
 
 		if finding.Severity == "high" {
 			line = findingHighStyle.Render(line)
@@ -87,7 +87,7 @@ func (m Model) View() string {
 			line = findingMediumStyle.Render(line)
 		}
 
-		detailsBuilder.WriteString("  " + line + "\n")
+		detailsBuilder.WriteString("  " + line + "\n\n")
 	}
 
 	if !found {
