@@ -11,7 +11,7 @@ import (
 func PrintSummary(composeFile *compose.ComposeFile, findings []analysis.Finding) {
 
 	for _, finding := range findings {
-		fmt.Printf("Service: %s, Message: %s, Severity: %s\n", finding.Service, finding.Message, finding.Severity)
+		fmt.Printf("Service: %s, Title: %s, Severity: %s\n", finding.Service, finding.Title, finding.Severity)
 	}
 
 	for key, service := range composeFile.Services {

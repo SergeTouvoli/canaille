@@ -17,7 +17,7 @@ var servicePanelStyle = lipgloss.NewStyle().
 var detailPanelStyle = lipgloss.NewStyle().
 	Border(lipgloss.RoundedBorder()).
 	Padding(1, 2).
-	Width(60).
+	Width(95).
 	Height(14)
 
 var findingHighStyle = lipgloss.NewStyle().
