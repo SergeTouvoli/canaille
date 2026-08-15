@@ -58,6 +58,32 @@ func Analyze(composeFile *compose.ComposeFile) []Finding {
 
 			}
 		}
+
+		for _, volume := range service.Volumes {
+			mount := compose.ParseVolumeMount(volume)
+
+			if mount.Source != "/var/run/docker.sock" {
+				continue
+			}
+
+			if mount.ReadOnly {
+				// finding RO
+				findings = append(findings, Finding{
+					Service:     key,
+					Title:       "Docker socket mounted read-only",
+					Description: "The Docker socket is mounted read-only. This is safer than read-write access, but still exposes sensitive Docker daemon information and capabilities to the container.",
+					Severity:    "medium",
+				})
+			} else {
+				// finding RW
+				findings = append(findings, Finding{
+					Service:     key,
+					Title:       "Docker socket mounted read-write",
+					Description: "The Docker socket is mounted with write access. A compromised container may be able to control the Docker daemon and effectively gain control over the host.",
+					Severity:    "high",
+				})
+			}
+		}
 	}
 
 	return findings
