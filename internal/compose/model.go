@@ -14,6 +14,7 @@ type Service struct {
 	Networks      []string    `yaml:"networks"`
 	Healthcheck   Healthcheck `yaml:"healthcheck"`
 	Privileged    bool        `yaml:"privileged"`
+	Volumes       []string    `yaml:"volumes"`
 }
 
 type Build struct {
