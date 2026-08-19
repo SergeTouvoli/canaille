@@ -53,6 +53,7 @@ Canaille currently detects:
 - Services without an image or build context
 - Ports published without an explicit host IP
 - Ports explicitly bound to `0.0.0.0`
+- Services without a restart policy
 
 More rules will be added as the project evolves.
 

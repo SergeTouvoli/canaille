@@ -35,6 +35,15 @@ func Analyze(composeFile *compose.ComposeFile) []Finding {
 			})
 		}
 
+		if service.Restart == "" {
+			findings = append(findings, Finding{
+				Service:     key,
+				Title:       "Missing restart policy",
+				Description: "Service does not define a restart policy. Without one, the container will not restart automatically if it stops or the host reboots.",
+				Severity:    "low",
+			})
+		}
+
 		// Check for ports
 		for _, port := range service.Ports {
 			parts := strings.Split(port, ":")
